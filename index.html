@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Téléchargement | Les 5 Réflexes Managériaux - Ivory Consulting</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ivory: #F9F6F0;
+            --night-blue: #0B1020;
+            --gold: #CFA94A;
+            --gold-hover: #E3BE5E;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--ivory);
+            color: var(--night-blue);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 40px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(11, 16, 32, 0.05);
+            border-top: 5px solid var(--gold);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #5A657C;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 35px;
+            background-color: var(--gold);
+            color: var(--night-blue);
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background-color: var(--gold-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(207, 169, 74, 0.3);
+        }
+
+        .footer-link {
+            margin-top: 30px;
+            display: block;
+            color: var(--night-blue);
+            font-size: 0.9rem;
+            opacity: 0.7;
+            text-decoration: none;
+        }
+
+        .footer-link:hover { opacity: 1; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Votre Guide Offert</h1>
+        <p>Merci de votre intérêt. Découvrez les 5 réflexes qui épuisent vos équipes et leurs alternatives neuroscientifiques pour booster l'engagement.</p>
+        
+        <a href="lead-magnet.pdf" class="btn" download>Télécharger le Guide (PDF)</a>
+
+        <a href="https://calendly.com/guehinadje-ivoryconsulting/audit" class="footer-link">
+            Besoin d'un audit "Déclic Cognitif" ? Prenez rendez-vous.
+        </a>
+    </div>
+</body>
+</html>
