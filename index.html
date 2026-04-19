@@ -1,93 +1,296 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Téléchargement | Les 5 Réflexes Managériaux - Ivory Consulting</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --ivory: #F9F6F0;
-            --night-blue: #0B1020;
-            --gold: #CFA94A;
-            --gold-hover: #E3BE5E;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Téléchargez gratuitement les 5 réflexes managériaux qui épuisent votre équipe — guide neurosciences Ivory Consulting." />
+<meta name="robots" content="index, follow" />
+<title>5 Réflexes Managériaux — Ivory Consulting</title>
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--ivory);
-            color: var(--night-blue);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
-        }
+<!-- Open Graph (partage LinkedIn / WhatsApp) -->
+<meta property="og:title" content="5 Réflexes Managériaux qui épuisent votre équipe" />
+<meta property="og:description" content="Guide neurosciences 8 pages — Ivory Consulting" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://guehinadje-ic.github.io/lead-magnet-Ivory/" />
 
-        .container {
-            max-width: 600px;
-            padding: 40px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(11, 16, 32, 0.05);
-            border-top: 5px solid var(--gold);
-        }
+<style>
+  :root {
+    --navy: #2C1A47;
+    --gold: #C79B3D;
+    --ivory: #F9F8F5;
+    --ink: #1a1033;
+    --muted: #6b5e85;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { font-family: 'Helvetica Neue', Arial, sans-serif; color: var(--ink); background: var(--ivory); line-height: 1.55; }
+  body { min-height: 100vh; display: flex; flex-direction: column; }
 
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
+  .container { max-width: 720px; margin: 0 auto; padding: 40px 24px; width: 100%; }
 
-        p {
-            font-size: 1.1rem;
-            color: #5A657C;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
+  header.hero { text-align: center; padding-top: 8px; }
+  header.hero .brand { font-family: Georgia, 'Times New Roman', serif; font-size: 1rem; letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; margin-bottom: 24px; }
+  header.hero h1 { font-family: Georgia, 'Times New Roman', serif; font-weight: 700; color: var(--navy); font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: 1.15; margin-bottom: 18px; }
+  header.hero h1 .accent { color: var(--gold); }
+  header.hero p.lede { font-size: clamp(1rem, 2.3vw, 1.15rem); color: var(--muted); margin-bottom: 8px; }
 
-        .btn {
-            display: inline-block;
-            padding: 18px 35px;
-            background-color: var(--gold);
-            color: var(--night-blue);
-            text-decoration: none;
-            font-weight: 700;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+  .card { background: white; border-radius: 14px; padding: 28px 24px; margin-top: 36px; box-shadow: 0 6px 24px rgba(44, 26, 71, 0.08); border: 1px solid rgba(199, 155, 61, 0.15); }
+  .card h2 { font-family: Georgia, 'Times New Roman', serif; color: var(--navy); font-size: 1.35rem; margin-bottom: 6px; }
+  .card p.sub { color: var(--muted); font-size: 0.95rem; margin-bottom: 20px; }
 
-        .btn:hover {
-            background-color: var(--gold-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(207, 169, 74, 0.3);
-        }
+  form { display: flex; flex-direction: column; gap: 14px; }
+  label { font-size: 0.85rem; color: var(--navy); font-weight: 600; letter-spacing: 0.02em; }
+  input[type="text"], input[type="email"], select { width: 100%; padding: 12px 14px; border: 1.5px solid #e4dfd3; border-radius: 8px; font-size: 1rem; background: white; color: var(--ink); font-family: inherit; transition: border-color 0.15s; }
+  input:focus, select:focus { outline: none; border-color: var(--gold); }
 
-        .footer-link {
-            margin-top: 30px;
-            display: block;
-            color: var(--night-blue);
-            font-size: 0.9rem;
-            opacity: 0.7;
-            text-decoration: none;
-        }
+  button.cta { background: var(--navy); color: var(--ivory); border: none; padding: 14px 20px; font-size: 1.05rem; font-weight: 600; border-radius: 8px; cursor: pointer; margin-top: 6px; transition: background 0.15s, transform 0.1s; font-family: inherit; }
+  button.cta:hover { background: #3a2560; }
+  button.cta:active { transform: scale(0.98); }
+  button.cta:disabled { opacity: 0.6; cursor: wait; }
 
-        .footer-link:hover { opacity: 1; text-decoration: underline; }
-    </style>
+  .checklist { margin: 20px 0 4px; padding: 0; list-style: none; }
+  .checklist li { padding: 6px 0 6px 28px; position: relative; font-size: 0.95rem; color: var(--ink); }
+  .checklist li::before { content: "✓"; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+
+  .secondary-cta { margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(199, 155, 61, 0.2); text-align: center; }
+  .secondary-cta a { color: var(--navy); text-decoration: none; font-weight: 600; border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
+  .secondary-cta a:hover { color: var(--gold); }
+
+  /* Success screen */
+  .success { display: none; text-align: center; padding: 10px 0; }
+  .success.visible { display: block; }
+  .success h2 { color: var(--navy); font-size: 1.5rem; margin-bottom: 14px; }
+  .success p { color: var(--ink); margin-bottom: 16px; }
+  .success .big-button { display: inline-block; background: var(--gold); color: var(--navy); padding: 16px 28px; border-radius: 10px; font-weight: 700; text-decoration: none; font-size: 1.1rem; margin: 10px 4px; }
+  .success .big-button:hover { background: #b58a2d; color: var(--ivory); }
+  .success .ios-tip { margin-top: 24px; padding: 16px; background: #faf7ed; border: 1px solid var(--gold); border-radius: 10px; text-align: left; font-size: 0.9rem; display: none; }
+  .success .ios-tip.visible { display: block; }
+  .success .ios-tip strong { color: var(--navy); }
+
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 0.85rem; margin-top: auto; }
+  footer a { color: var(--navy); text-decoration: none; }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>Votre Guide Offert</h1>
-        <p>Merci de votre intérêt. Découvrez les 5 réflexes qui épuisent vos équipes et leurs alternatives neuroscientifiques pour booster l'engagement.</p>
-        
-        <a href="lead-magnet.pdf" class="btn" download>Télécharger le Guide (PDF)</a>
 
-        <a href="https://calendly.com/guehinadje-ivoryconsulting/audit" class="footer-link">
-            Besoin d'un audit "Déclic Cognitif" ? Prenez rendez-vous.
-        </a>
+<div class="container">
+
+  <header class="hero">
+    <p class="brand">Ivory Consulting</p>
+    <h1>Les 5 réflexes managériaux qui <span class="accent">épuisent votre équipe</span></h1>
+    <p class="lede">Guide neurosciences — 8 pages, applicable dès demain</p>
+  </header>
+
+  <section class="card" id="formCard">
+    <h2>Recevez le guide en 30 secondes</h2>
+    <p class="sub">Destiné aux dirigeants de PME 10–50 salariés.</p>
+
+    <form id="leadForm" autocomplete="on" novalidate>
+      <div>
+        <label for="firstName">Prénom</label>
+        <input type="text" id="firstName" name="first_name" required placeholder="Nadjé" autocomplete="given-name" />
+      </div>
+      <div>
+        <label for="email">Email professionnel</label>
+        <input type="email" id="email" name="email" required placeholder="vous@votre-entreprise.fr" autocomplete="email" />
+      </div>
+      <div>
+        <label for="sector">Secteur</label>
+        <select id="sector" name="sector">
+          <option value="">— Choisir —</option>
+          <option value="hotellerie-restauration">Hôtellerie / Restauration</option>
+          <option value="commerce">Commerce / Retail</option>
+          <option value="services">Services / BtoB</option>
+          <option value="btp">BTP / Construction</option>
+          <option value="sante">Santé / Médical</option>
+          <option value="autre">Autre</option>
+        </select>
+      </div>
+      <div>
+        <label for="teamSize">Taille de l'équipe</label>
+        <select id="teamSize" name="team_size">
+          <option value="">— Choisir —</option>
+          <option value="1-9">1 à 9 salariés</option>
+          <option value="10-25">10 à 25 salariés</option>
+          <option value="25-50">25 à 50 salariés</option>
+          <option value="50+">50+ salariés</option>
+        </select>
+      </div>
+
+      <button type="submit" class="cta" id="submitBtn">📥 Recevoir le guide</button>
+
+      <ul class="checklist">
+        <li>Format PDF, 8 pages — lisible en 12 min</li>
+        <li>Basé sur les neurosciences appliquées</li>
+        <li>Autodiagnostic inclus</li>
+      </ul>
+    </form>
+  </section>
+
+  <section class="card success" id="successCard">
+    <h2>🎉 Merci <span id="greetingName">!</span></h2>
+    <p>Votre guide est prêt. Cliquez ci-dessous pour l'ouvrir :</p>
+
+    <a id="pdfLink" class="big-button" href="#" target="_blank" rel="noopener">📄 Ouvrir le PDF</a>
+
+    <div class="ios-tip" id="iosTip">
+      <strong>📱 Astuce iPhone/iPad :</strong><br />
+      Le PDF s'ouvre dans Safari. Pour l'enregistrer sur votre appareil :<br />
+      1. Appuyez sur l'icône <strong>⬆️ Partager</strong> (en bas de l'écran)<br />
+      2. Choisissez <strong>« Enregistrer dans Fichiers »</strong> ou <strong>« Livres »</strong><br />
+      Le guide sera alors consultable hors-ligne.
     </div>
+
+    <div class="secondary-cta">
+      <p style="color: var(--muted); font-size: 0.95rem; margin-bottom: 12px;">Envie d'aller plus loin ?</p>
+      <a id="calcomLink" href="#" target="_blank" rel="noopener">Réserver un atelier découverte (15 min, gratuit)</a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>© 2026 Ivory Consulting — <a href="mailto:guehinadje@ivoryconsulting.fr">guehinadje@ivoryconsulting.fr</a></p>
+</footer>
+
+<script>
+/* ========================================================================
+   CONFIGURATION — À ÉDITER
+   ======================================================================== */
+const CONFIG = {
+  // Nom exact du fichier PDF à la racine de ton repo GitHub.
+  // ⚠️ Respecter la casse et les tirets. Pas d'accents ni d'espaces.
+  PDF_FILENAME: "Ivory-5-Reflexes-Manageriaux.pdf",
+
+  // Lien cal.com (CTA secondaire après téléchargement)
+  CALCOM_URL: "https://cal.com/nadje-guehi/lead-magnet",
+
+  // Formspree endpoint (optionnel — laisser vide pour désactiver la collecte)
+  // Créer un compte gratuit sur https://formspree.io → New form → copier l'endpoint
+  FORM_ENDPOINT: ""  // ex: "https://formspree.io/f/xxxxxxxx"
+};
+
+/* ========================================================================
+   DÉTECTION iOS (Safari iPhone/iPad)
+   ======================================================================== */
+function isIOS() {
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+  // iPhone / iPad / iPod
+  if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return true;
+  // iPadOS 13+ qui se fait passer pour Mac
+  if (navigator.maxTouchPoints > 1 && /Macintosh/.test(ua)) return true;
+  return false;
+}
+
+/* ========================================================================
+   CAPTURE DES PARAMÈTRES UTM
+   ======================================================================== */
+function getUTMParams() {
+  const params = new URLSearchParams(window.location.search);
+  const utm = {};
+  ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(key => {
+    const v = params.get(key);
+    if (v) utm[key] = v;
+  });
+  return utm;
+}
+
+/* ========================================================================
+   SOUMISSION DU FORMULAIRE
+   ======================================================================== */
+const form = document.getElementById("leadForm");
+const formCard = document.getElementById("formCard");
+const successCard = document.getElementById("successCard");
+const pdfLink = document.getElementById("pdfLink");
+const calcomLink = document.getElementById("calcomLink");
+const iosTip = document.getElementById("iosTip");
+const greetingName = document.getElementById("greetingName");
+const submitBtn = document.getElementById("submitBtn");
+
+form.addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const firstName = document.getElementById("firstName").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const sector = document.getElementById("sector").value;
+  const teamSize = document.getElementById("teamSize").value;
+
+  if (!firstName || !email) {
+    alert("Merci de remplir au moins ton prénom et ton email.");
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Envoi en cours…";
+
+  // Collecte des UTM pour tracking
+  const utm = getUTMParams();
+
+  // Envoi vers Formspree si configuré
+  if (CONFIG.FORM_ENDPOINT) {
+    try {
+      await fetch(CONFIG.FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({
+          first_name: firstName,
+          email: email,
+          sector: sector,
+          team_size: teamSize,
+          ...utm,
+          page_url: window.location.href,
+          submitted_at: new Date().toISOString()
+        })
+      });
+    } catch (err) {
+      // On ne bloque pas la délivrance du PDF si Formspree échoue
+      console.warn("Formspree error:", err);
+    }
+  }
+
+  // Préparation de l'URL du PDF et du lien cal.com
+  const pdfUrl = CONFIG.PDF_FILENAME;
+  const calcomUrl = CONFIG.CALCOM_URL
+    + "?utm_source=landing_page&utm_medium=post_capture&utm_campaign=lead_magnet"
+    + "&prefill_name=" + encodeURIComponent(firstName)
+    + "&prefill_email=" + encodeURIComponent(email);
+
+  // Affichage écran de succès
+  greetingName.textContent = firstName + " !";
+  pdfLink.href = pdfUrl;
+  calcomLink.href = calcomUrl;
+
+  // Comportement iOS vs desktop
+  if (isIOS()) {
+    // iPhone/iPad : on ouvre le PDF dans un nouvel onglet
+    // (attribut download ignoré par Safari iOS).
+    // L'encart "astuce iOS" s'affiche pour guider l'utilisateur.
+    pdfLink.removeAttribute("download");
+    pdfLink.setAttribute("target", "_blank");
+    iosTip.classList.add("visible");
+  } else {
+    // Desktop + Android : téléchargement direct via attribut download.
+    pdfLink.setAttribute("download", CONFIG.PDF_FILENAME);
+    // Déclenchement programmatique — sauf si utilisateur préfère cliquer.
+    // On laisse le bouton visible pour qu'il puisse cliquer lui-même si besoin.
+    setTimeout(() => {
+      const a = document.createElement("a");
+      a.href = pdfUrl;
+      a.download = CONFIG.PDF_FILENAME;
+      a.target = "_blank";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }, 500);
+  }
+
+  // Basculement d'écran
+  formCard.style.display = "none";
+  successCard.classList.add("visible");
+
+  // Scroll doux vers le haut
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+</script>
+
 </body>
 </html>
