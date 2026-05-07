@@ -3,15 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Téléchargez gratuitement les 5 réflexes managériaux qui épuisent votre équipe — guide neurosciences Ivory Consulting." />
+<meta name="description" content="Téléchargez gratuitement les 5 réflexes managériaux qui épuisent votre équipe — guide neurosciences Ivory Consulting (V2)." />
 <meta name="robots" content="index, follow" />
-<title>5 Réflexes Managériaux — Ivory Consulting</title>
+<title>5 Réflexes Managériaux V2 — Ivory Consulting</title>
 
-<!-- Open Graph (partage LinkedIn / WhatsApp) -->
-<meta property="og:title" content="5 Réflexes Managériaux qui épuisent votre équipe" />
-<meta property="og:description" content="Guide neurosciences 8 pages — Ivory Consulting" />
+<meta property="og:title" content="5 Réflexes Managériaux qui épuisent votre équipe (V2)" />
+<meta property="og:description" content="Guide neurosciences — Ivory Consulting" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://guehinadje-ic.github.io/lead-magnet-Ivory/" />
 
 <style>
   :root {
@@ -20,6 +18,8 @@
     --ivory: #F9F8F5;
     --ink: #1a1033;
     --muted: #6b5e85;
+    --error: #b0284a;
+    --success: #2d8a4f;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { font-family: 'Helvetica Neue', Arial, sans-serif; color: var(--ink); background: var(--ivory); line-height: 1.55; }
@@ -32,6 +32,7 @@
   header.hero h1 { font-family: Georgia, 'Times New Roman', serif; font-weight: 700; color: var(--navy); font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: 1.15; margin-bottom: 18px; }
   header.hero h1 .accent { color: var(--gold); }
   header.hero p.lede { font-size: clamp(1rem, 2.3vw, 1.15rem); color: var(--muted); margin-bottom: 8px; }
+  header.hero .badge-v2 { display: inline-block; background: var(--gold); color: var(--navy); padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; margin-top: 8px; }
 
   .card { background: white; border-radius: 14px; padding: 28px 24px; margin-top: 36px; box-shadow: 0 6px 24px rgba(44, 26, 71, 0.08); border: 1px solid rgba(199, 155, 61, 0.15); }
   .card h2 { font-family: Georgia, 'Times New Roman', serif; color: var(--navy); font-size: 1.35rem; margin-bottom: 6px; }
@@ -55,16 +56,26 @@
   .secondary-cta a { color: var(--navy); text-decoration: none; font-weight: 600; border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
   .secondary-cta a:hover { color: var(--gold); }
 
-  /* Success screen */
   .success { display: none; text-align: center; padding: 10px 0; }
   .success.visible { display: block; }
   .success h2 { color: var(--navy); font-size: 1.5rem; margin-bottom: 14px; }
   .success p { color: var(--ink); margin-bottom: 16px; }
   .success .big-button { display: inline-block; background: var(--gold); color: var(--navy); padding: 16px 28px; border-radius: 10px; font-weight: 700; text-decoration: none; font-size: 1.1rem; margin: 10px 4px; }
   .success .big-button:hover { background: #b58a2d; color: var(--ivory); }
-  .success .ios-tip { margin-top: 24px; padding: 16px; background: #faf7ed; border: 1px solid var(--gold); border-radius: 10px; text-align: left; font-size: 0.9rem; display: none; }
-  .success .ios-tip.visible { display: block; }
-  .success .ios-tip strong { color: var(--navy); }
+
+  .ios-tip { margin-top: 24px; padding: 16px; background: #faf7ed; border: 1px solid var(--gold); border-radius: 10px; text-align: left; font-size: 0.9rem; display: none; }
+  .ios-tip.visible { display: block; }
+  .ios-tip strong { color: var(--navy); }
+
+  .error-box { display: none; margin-top: 20px; padding: 14px; background: #fdecef; border: 1px solid var(--error); border-radius: 10px; color: var(--error); font-size: 0.9rem; text-align: left; }
+  .error-box.visible { display: block; }
+  .error-box code { background: white; padding: 2px 6px; border-radius: 4px; font-family: Consolas, monospace; }
+
+  .mc-info { margin-top: 12px; font-size: 0.8rem; color: var(--success); display: none; }
+  .mc-info.visible { display: block; }
+
+  /* IFRAME CACHÉE — c'est elle qui reçoit la réponse Mailchimp pour bypasser CORS */
+  iframe.mc-hidden { display: none; width: 0; height: 0; border: 0; }
 
   footer { text-align: center; padding: 24px; color: var(--muted); font-size: 0.85rem; margin-top: auto; }
   footer a { color: var(--navy); text-decoration: none; }
@@ -77,25 +88,28 @@
   <header class="hero">
     <p class="brand">Ivory Consulting</p>
     <h1>Les 5 réflexes managériaux qui <span class="accent">épuisent votre équipe</span></h1>
-    <p class="lede">Guide neurosciences — 8 pages, applicable dès demain</p>
+    <p class="lede">Guide neurosciences — applicable dès demain</p>
+    <span class="badge-v2">VERSION 2 · ÉDITION 2026</span>
   </header>
 
   <section class="card" id="formCard">
     <h2>Recevez le guide en 30 secondes</h2>
     <p class="sub">Destiné aux dirigeants de PME 10–50 salariés.</p>
 
-    <form id="leadForm" autocomplete="on" novalidate>
+    <!-- ⚠️ ACTION = ton URL Mailchimp (à éditer dans CONFIG ci-dessous OU directement ici) -->
+    <form id="leadForm" autocomplete="on" novalidate
+          target="mc_hidden_iframe">
       <div>
         <label for="firstName">Prénom</label>
-        <input type="text" id="firstName" name="first_name" required placeholder="Nadjé" autocomplete="given-name" />
+        <input type="text" id="firstName" name="FNAME" required placeholder="Nadjé" autocomplete="given-name" />
       </div>
       <div>
         <label for="email">Email professionnel</label>
-        <input type="email" id="email" name="email" required placeholder="vous@votre-entreprise.fr" autocomplete="email" />
+        <input type="email" id="email" name="EMAIL" required placeholder="vous@votre-entreprise.fr" autocomplete="email" />
       </div>
       <div>
         <label for="sector">Secteur</label>
-        <select id="sector" name="sector">
+        <select id="sector" name="MMERGE3">
           <option value="">— Choisir —</option>
           <option value="hotellerie-restauration">Hôtellerie / Restauration</option>
           <option value="commerce">Commerce / Retail</option>
@@ -107,7 +121,7 @@
       </div>
       <div>
         <label for="teamSize">Taille de l'équipe</label>
-        <select id="teamSize" name="team_size">
+        <select id="teamSize" name="MMERGE4">
           <option value="">— Choisir —</option>
           <option value="1-9">1 à 9 salariés</option>
           <option value="10-25">10 à 25 salariés</option>
@@ -116,28 +130,41 @@
         </select>
       </div>
 
-      <button type="submit" class="cta" id="submitBtn">📥 Recevoir le guide</button>
+      <!-- Honeypot anti-bot Mailchimp (ne pas supprimer) -->
+      <div style="position:absolute;left:-5000px;" aria-hidden="true">
+        <input type="text" name="b_HONEYPOT" tabindex="-1" value="" />
+      </div>
+
+      <button type="submit" class="cta" id="submitBtn">📥 Recevoir le guide V2</button>
+      <p class="mc-info" id="mcInfo">✓ Inscription Mailchimp envoyée en arrière-plan</p>
 
       <ul class="checklist">
-        <li>Format PDF, 8 pages — lisible en 12 min</li>
+        <li>Format PDF — lisible en 12 min</li>
         <li>Basé sur les neurosciences appliquées</li>
-        <li>Autodiagnostic inclus</li>
+        <li>Édition V2 enrichie (autodiagnostic + cas réels)</li>
       </ul>
     </form>
+
+    <!-- IFRAME CACHÉE : reçoit la réponse Mailchimp, pas de redirection visible -->
+    <iframe name="mc_hidden_iframe" class="mc-hidden" title="Mailchimp silent submit"></iframe>
   </section>
 
   <section class="card success" id="successCard">
     <h2>🎉 Merci <span id="greetingName">!</span></h2>
-    <p>Votre guide est prêt. Cliquez ci-dessous pour l'ouvrir :</p>
+    <p>Ton guide V2 est prêt :</p>
 
-    <a id="pdfLink" class="big-button" href="#" target="_blank" rel="noopener">📄 Ouvrir le PDF</a>
+    <a id="pdfLink" class="big-button" href="#" target="_blank" rel="noopener">📄 Ouvrir le PDF V2</a>
 
     <div class="ios-tip" id="iosTip">
       <strong>📱 Astuce iPhone/iPad :</strong><br />
-      Le PDF s'ouvre dans Safari. Pour l'enregistrer sur votre appareil :<br />
-      1. Appuyez sur l'icône <strong>⬆️ Partager</strong> (en bas de l'écran)<br />
-      2. Choisissez <strong>« Enregistrer dans Fichiers »</strong> ou <strong>« Livres »</strong><br />
-      Le guide sera alors consultable hors-ligne.
+      Le PDF s'ouvre dans Safari. Pour l'enregistrer :<br />
+      1. Appuie sur l'icône <strong>⬆️ Partager</strong> (en bas)<br />
+      2. Choisis <strong>« Enregistrer dans Fichiers »</strong> ou <strong>« Livres »</strong>
+    </div>
+
+    <div class="error-box" id="errorBox">
+      ⚠️ <strong>PDF introuvable.</strong> Fichier attendu : <code id="expectedFile"></code><br />
+      Vérifie qu'il est bien à la racine de ton repo GitHub.
     </div>
 
     <div class="secondary-cta">
@@ -157,32 +184,47 @@
    CONFIGURATION — À ÉDITER
    ======================================================================== */
 const CONFIG = {
-  // Nom exact du fichier PDF à la racine de ton repo GitHub.
-  // ⚠️ Respecter la casse et les tirets. Pas d'accents ni d'espaces.
-  PDF_FILENAME: "Ivory-5-Reflexes-Manageriaux.pdf",
+  // Nom EXACT du PDF V2 à la racine de ton repo GitHub
+  PDF_FILENAME: "lead-magnet-ivory-v2.pdf",
 
-  // Lien cal.com (CTA secondaire après téléchargement)
+  // Lien cal.com (CTA secondaire)
   CALCOM_URL: "https://cal.com/nadje-guehi/lead-magnet",
 
-  // Formspree endpoint (optionnel — laisser vide pour désactiver la collecte)
-  // Créer un compte gratuit sur https://formspree.io → New form → copier l'endpoint
-  FORM_ENDPOINT: ""  // ex: "https://formspree.io/f/xxxxxxxx"
+  // ⚠️ MAILCHIMP — coller ICI ton URL d'embed form
+  // Comment l'obtenir : Mailchimp > Audience > Signup forms > Embedded forms > Copier l'URL du `action="..."`
+  // Format attendu : https://ivoryconsulting.usXX.list-manage.com/subscribe/post?u=XXXXXXXXX&id=XXXXXXXXX
+  MAILCHIMP_FORM_ACTION: "",
+
+  // Honeypot Mailchimp (généré par Mailchimp dans le code embed, format b_XXXX_YYYY)
+  // Récupère-le dans le code source du formulaire embed Mailchimp
+  MAILCHIMP_HONEYPOT_NAME: ""
 };
 
 /* ========================================================================
-   DÉTECTION iOS (Safari iPhone/iPad)
+   INITIALISATION — applique la config au DOM
+   ======================================================================== */
+const form = document.getElementById("leadForm");
+if (CONFIG.MAILCHIMP_FORM_ACTION) {
+  form.setAttribute("action", CONFIG.MAILCHIMP_FORM_ACTION);
+  form.setAttribute("method", "POST");
+}
+if (CONFIG.MAILCHIMP_HONEYPOT_NAME) {
+  const hp = document.querySelector('input[name="b_HONEYPOT"]');
+  if (hp) hp.setAttribute("name", CONFIG.MAILCHIMP_HONEYPOT_NAME);
+}
+
+/* ========================================================================
+   DÉTECTION iOS
    ======================================================================== */
 function isIOS() {
   const ua = navigator.userAgent || navigator.vendor || window.opera;
-  // iPhone / iPad / iPod
   if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return true;
-  // iPadOS 13+ qui se fait passer pour Mac
   if (navigator.maxTouchPoints > 1 && /Macintosh/.test(ua)) return true;
   return false;
 }
 
 /* ========================================================================
-   CAPTURE DES PARAMÈTRES UTM
+   UTM
    ======================================================================== */
 function getUTMParams() {
   const params = new URLSearchParams(window.location.search);
@@ -195,9 +237,20 @@ function getUTMParams() {
 }
 
 /* ========================================================================
-   SOUMISSION DU FORMULAIRE
+   VÉRIFICATION PRÉSENCE DU PDF
    ======================================================================== */
-const form = document.getElementById("leadForm");
+async function checkPdfExists(url) {
+  try {
+    const res = await fetch(url, { method: "HEAD" });
+    return res.ok;
+  } catch (e) {
+    return false;
+  }
+}
+
+/* ========================================================================
+   HANDLER FORMULAIRE
+   ======================================================================== */
 const formCard = document.getElementById("formCard");
 const successCard = document.getElementById("successCard");
 const pdfLink = document.getElementById("pdfLink");
@@ -205,90 +258,85 @@ const calcomLink = document.getElementById("calcomLink");
 const iosTip = document.getElementById("iosTip");
 const greetingName = document.getElementById("greetingName");
 const submitBtn = document.getElementById("submitBtn");
+const errorBox = document.getElementById("errorBox");
+const expectedFile = document.getElementById("expectedFile");
+const mcInfo = document.getElementById("mcInfo");
 
 form.addEventListener("submit", async function (e) {
-  e.preventDefault();
+  // ⚠️ NE PAS faire e.preventDefault() ici si MAILCHIMP_FORM_ACTION est configuré.
+  // Le formulaire DOIT être soumis nativement vers l'iframe cachée pour bypasser CORS.
+  // On gère seulement la suite (PDF + écran de succès) en JS.
 
   const firstName = document.getElementById("firstName").value.trim();
   const email = document.getElementById("email").value.trim();
-  const sector = document.getElementById("sector").value;
-  const teamSize = document.getElementById("teamSize").value;
 
   if (!firstName || !email) {
-    alert("Merci de remplir au moins ton prénom et ton email.");
+    e.preventDefault();
+    alert("Merci de renseigner ton prénom et ton email.");
     return;
+  }
+
+  // Si pas de Mailchimp configuré, on bloque la soumission native
+  if (!CONFIG.MAILCHIMP_FORM_ACTION) {
+    e.preventDefault();
+    console.warn("Mailchimp non configuré — la soumission ne stocke PAS l'email.");
   }
 
   submitBtn.disabled = true;
   submitBtn.textContent = "Envoi en cours…";
-
-  // Collecte des UTM pour tracking
-  const utm = getUTMParams();
-
-  // Envoi vers Formspree si configuré
-  if (CONFIG.FORM_ENDPOINT) {
-    try {
-      await fetch(CONFIG.FORM_ENDPOINT, {
-        method: "POST",
-        headers: { "Accept": "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({
-          first_name: firstName,
-          email: email,
-          sector: sector,
-          team_size: teamSize,
-          ...utm,
-          page_url: window.location.href,
-          submitted_at: new Date().toISOString()
-        })
-      });
-    } catch (err) {
-      // On ne bloque pas la délivrance du PDF si Formspree échoue
-      console.warn("Formspree error:", err);
-    }
+  if (CONFIG.MAILCHIMP_FORM_ACTION) {
+    mcInfo.classList.add("visible");
   }
 
-  // Préparation de l'URL du PDF et du lien cal.com
+  // Track UTM dans la console (pour debug — ils sont pas envoyés à Mailchimp natif)
+  const utm = getUTMParams();
+  if (Object.keys(utm).length) console.log("UTM tracking:", utm);
+
+  // URL du PDF
   const pdfUrl = CONFIG.PDF_FILENAME;
+  expectedFile.textContent = pdfUrl;
+
+  // Calcul URL cal.com
   const calcomUrl = CONFIG.CALCOM_URL
-    + "?utm_source=landing_page&utm_medium=post_capture&utm_campaign=lead_magnet"
+    + "?utm_source=landing_page&utm_medium=post_capture&utm_campaign=lead_magnet_v2"
     + "&prefill_name=" + encodeURIComponent(firstName)
     + "&prefill_email=" + encodeURIComponent(email);
 
-  // Affichage écran de succès
-  greetingName.textContent = firstName + " !";
-  pdfLink.href = pdfUrl;
-  calcomLink.href = calcomUrl;
+  // Petit délai pour laisser Mailchimp recevoir la soumission via l'iframe
+  setTimeout(async () => {
+    const pdfExists = await checkPdfExists(pdfUrl);
 
-  // Comportement iOS vs desktop
-  if (isIOS()) {
-    // iPhone/iPad : on ouvre le PDF dans un nouvel onglet
-    // (attribut download ignoré par Safari iOS).
-    // L'encart "astuce iOS" s'affiche pour guider l'utilisateur.
-    pdfLink.removeAttribute("download");
-    pdfLink.setAttribute("target", "_blank");
-    iosTip.classList.add("visible");
-  } else {
-    // Desktop + Android : téléchargement direct via attribut download.
-    pdfLink.setAttribute("download", CONFIG.PDF_FILENAME);
-    // Déclenchement programmatique — sauf si utilisateur préfère cliquer.
-    // On laisse le bouton visible pour qu'il puisse cliquer lui-même si besoin.
-    setTimeout(() => {
-      const a = document.createElement("a");
-      a.href = pdfUrl;
-      a.download = CONFIG.PDF_FILENAME;
-      a.target = "_blank";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }, 500);
-  }
+    greetingName.textContent = firstName + " !";
+    pdfLink.href = pdfUrl;
+    calcomLink.href = calcomUrl;
 
-  // Basculement d'écran
-  formCard.style.display = "none";
-  successCard.classList.add("visible");
+    formCard.style.display = "none";
+    successCard.classList.add("visible");
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // Scroll doux vers le haut
-  window.scrollTo({ top: 0, behavior: "smooth" });
+    if (!pdfExists) {
+      errorBox.classList.add("visible");
+      pdfLink.style.display = "none";
+      return;
+    }
+
+    if (isIOS()) {
+      pdfLink.removeAttribute("download");
+      pdfLink.setAttribute("target", "_blank");
+      iosTip.classList.add("visible");
+    } else {
+      pdfLink.setAttribute("download", CONFIG.PDF_FILENAME);
+      setTimeout(() => {
+        const a = document.createElement("a");
+        a.href = pdfUrl;
+        a.download = CONFIG.PDF_FILENAME;
+        a.target = "_blank";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }, 500);
+    }
+  }, 600);
 });
 </script>
 
