@@ -71,12 +71,6 @@
   .error-box.visible { display: block; }
   .error-box code { background: white; padding: 2px 6px; border-radius: 4px; font-family: Consolas, monospace; }
 
-  .mc-info { margin-top: 12px; font-size: 0.8rem; color: var(--success); display: none; }
-  .mc-info.visible { display: block; }
-
-  /* IFRAME CACHÉE — c'est elle qui reçoit la réponse Mailchimp pour bypasser CORS */
-  iframe.mc-hidden { display: none; width: 0; height: 0; border: 0; }
-
   footer { text-align: center; padding: 24px; color: var(--muted); font-size: 0.85rem; margin-top: auto; }
   footer a { color: var(--navy); text-decoration: none; }
 </style>
@@ -96,20 +90,18 @@
     <h2>Recevez le guide en 30 secondes</h2>
     <p class="sub">Destiné aux dirigeants de PME 10–50 salariés.</p>
 
-    <!-- ⚠️ ACTION = ton URL Mailchimp (à éditer dans CONFIG ci-dessous OU directement ici) -->
-    <form id="leadForm" autocomplete="on" novalidate
-          target="mc_hidden_iframe">
+    <form id="leadForm" autocomplete="on" novalidate>
       <div>
         <label for="firstName">Prénom</label>
-        <input type="text" id="firstName" name="FNAME" required placeholder="Nadjé" autocomplete="given-name" />
+        <input type="text" id="firstName" name="first_name" required placeholder="Nadjé" autocomplete="given-name" />
       </div>
       <div>
         <label for="email">Email professionnel</label>
-        <input type="email" id="email" name="EMAIL" required placeholder="vous@votre-entreprise.fr" autocomplete="email" />
+        <input type="email" id="email" name="email" required placeholder="vous@votre-entreprise.fr" autocomplete="email" />
       </div>
       <div>
         <label for="sector">Secteur</label>
-        <select id="sector" name="MMERGE3">
+        <select id="sector" name="sector">
           <option value="">— Choisir —</option>
           <option value="hotellerie-restauration">Hôtellerie / Restauration</option>
           <option value="commerce">Commerce / Retail</option>
@@ -121,7 +113,7 @@
       </div>
       <div>
         <label for="teamSize">Taille de l'équipe</label>
-        <select id="teamSize" name="MMERGE4">
+        <select id="teamSize" name="team_size">
           <option value="">— Choisir —</option>
           <option value="1-9">1 à 9 salariés</option>
           <option value="10-25">10 à 25 salariés</option>
@@ -130,13 +122,7 @@
         </select>
       </div>
 
-      <!-- Honeypot anti-bot Mailchimp (ne pas supprimer) -->
-      <div style="position:absolute;left:-5000px;" aria-hidden="true">
-        <input type="text" name="b_HONEYPOT" tabindex="-1" value="" />
-      </div>
-
       <button type="submit" class="cta" id="submitBtn">📥 Recevoir le guide V2</button>
-      <p class="mc-info" id="mcInfo">✓ Inscription Mailchimp envoyée en arrière-plan</p>
 
       <ul class="checklist">
         <li>Format PDF — lisible en 12 min</li>
@@ -144,9 +130,6 @@
         <li>Édition V2 enrichie (autodiagnostic + cas réels)</li>
       </ul>
     </form>
-
-    <!-- IFRAME CACHÉE : reçoit la réponse Mailchimp, pas de redirection visible -->
-    <iframe name="mc_hidden_iframe" class="mc-hidden" title="Mailchimp silent submit"></iframe>
   </section>
 
   <section class="card success" id="successCard">
@@ -190,28 +173,11 @@ const CONFIG = {
   // Lien cal.com (CTA secondaire)
   CALCOM_URL: "https://cal.com/nadje-guehi/lead-magnet",
 
-  // ⚠️ MAILCHIMP — coller ICI ton URL d'embed form
-  // Comment l'obtenir : Mailchimp > Audience > Signup forms > Embedded forms > Copier l'URL du `action="..."`
-  // Format attendu : https://ivoryconsulting.usXX.list-manage.com/subscribe/post?u=XXXXXXXXX&id=XXXXXXXXX
-  MAILCHIMP_FORM_ACTION: "",
-
-  // Honeypot Mailchimp (généré par Mailchimp dans le code embed, format b_XXXX_YYYY)
-  // Récupère-le dans le code source du formulaire embed Mailchimp
-  MAILCHIMP_HONEYPOT_NAME: ""
+  // ⚠️ FORMSPREE — endpoint à coller ici
+  // Format : https://formspree.io/f/xxxxxxxx
+  // (créer un compte gratuit sur formspree.io → New Form → copier l'URL)
+  FORMSPREE_ENDPOINT: "https://formspree.io/f/mgodryqp"
 };
-
-/* ========================================================================
-   INITIALISATION — applique la config au DOM
-   ======================================================================== */
-const form = document.getElementById("leadForm");
-if (CONFIG.MAILCHIMP_FORM_ACTION) {
-  form.setAttribute("action", CONFIG.MAILCHIMP_FORM_ACTION);
-  form.setAttribute("method", "POST");
-}
-if (CONFIG.MAILCHIMP_HONEYPOT_NAME) {
-  const hp = document.querySelector('input[name="b_HONEYPOT"]');
-  if (hp) hp.setAttribute("name", CONFIG.MAILCHIMP_HONEYPOT_NAME);
-}
 
 /* ========================================================================
    DÉTECTION iOS
@@ -237,20 +203,19 @@ function getUTMParams() {
 }
 
 /* ========================================================================
-   VÉRIFICATION PRÉSENCE DU PDF
+   VÉRIFICATION PDF
    ======================================================================== */
 async function checkPdfExists(url) {
   try {
     const res = await fetch(url, { method: "HEAD" });
     return res.ok;
-  } catch (e) {
-    return false;
-  }
+  } catch (e) { return false; }
 }
 
 /* ========================================================================
    HANDLER FORMULAIRE
    ======================================================================== */
+const form = document.getElementById("leadForm");
 const formCard = document.getElementById("formCard");
 const successCard = document.getElementById("successCard");
 const pdfLink = document.getElementById("pdfLink");
@@ -260,83 +225,88 @@ const greetingName = document.getElementById("greetingName");
 const submitBtn = document.getElementById("submitBtn");
 const errorBox = document.getElementById("errorBox");
 const expectedFile = document.getElementById("expectedFile");
-const mcInfo = document.getElementById("mcInfo");
 
 form.addEventListener("submit", async function (e) {
-  // ⚠️ NE PAS faire e.preventDefault() ici si MAILCHIMP_FORM_ACTION est configuré.
-  // Le formulaire DOIT être soumis nativement vers l'iframe cachée pour bypasser CORS.
-  // On gère seulement la suite (PDF + écran de succès) en JS.
+  e.preventDefault();
 
   const firstName = document.getElementById("firstName").value.trim();
   const email = document.getElementById("email").value.trim();
+  const sector = document.getElementById("sector").value;
+  const teamSize = document.getElementById("teamSize").value;
 
   if (!firstName || !email) {
-    e.preventDefault();
     alert("Merci de renseigner ton prénom et ton email.");
     return;
   }
 
-  // Si pas de Mailchimp configuré, on bloque la soumission native
-  if (!CONFIG.MAILCHIMP_FORM_ACTION) {
-    e.preventDefault();
-    console.warn("Mailchimp non configuré — la soumission ne stocke PAS l'email.");
-  }
-
   submitBtn.disabled = true;
   submitBtn.textContent = "Envoi en cours…";
-  if (CONFIG.MAILCHIMP_FORM_ACTION) {
-    mcInfo.classList.add("visible");
+
+  const utm = getUTMParams();
+
+  // ENVOI VERS FORMSPREE
+  if (CONFIG.FORMSPREE_ENDPOINT) {
+    try {
+      await fetch(CONFIG.FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({
+          first_name: firstName,
+          email: email,
+          sector: sector,
+          team_size: teamSize,
+          ...utm,
+          page_url: window.location.href,
+          submitted_at: new Date().toISOString()
+        })
+      });
+      console.log("✅ Lead envoyé à Formspree");
+    } catch (err) {
+      console.warn("Formspree error:", err);
+    }
+  } else {
+    console.warn("⚠️ FORMSPREE_ENDPOINT non configuré — l'email n'est pas stocké.");
   }
 
-  // Track UTM dans la console (pour debug — ils sont pas envoyés à Mailchimp natif)
-  const utm = getUTMParams();
-  if (Object.keys(utm).length) console.log("UTM tracking:", utm);
-
-  // URL du PDF
   const pdfUrl = CONFIG.PDF_FILENAME;
   expectedFile.textContent = pdfUrl;
+  const pdfExists = await checkPdfExists(pdfUrl);
 
-  // Calcul URL cal.com
   const calcomUrl = CONFIG.CALCOM_URL
     + "?utm_source=landing_page&utm_medium=post_capture&utm_campaign=lead_magnet_v2"
     + "&prefill_name=" + encodeURIComponent(firstName)
     + "&prefill_email=" + encodeURIComponent(email);
 
-  // Petit délai pour laisser Mailchimp recevoir la soumission via l'iframe
-  setTimeout(async () => {
-    const pdfExists = await checkPdfExists(pdfUrl);
+  greetingName.textContent = firstName + " !";
+  pdfLink.href = pdfUrl;
+  calcomLink.href = calcomUrl;
 
-    greetingName.textContent = firstName + " !";
-    pdfLink.href = pdfUrl;
-    calcomLink.href = calcomUrl;
+  formCard.style.display = "none";
+  successCard.classList.add("visible");
+  window.scrollTo({ top: 0, behavior: "smooth" });
 
-    formCard.style.display = "none";
-    successCard.classList.add("visible");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  if (!pdfExists) {
+    errorBox.classList.add("visible");
+    pdfLink.style.display = "none";
+    return;
+  }
 
-    if (!pdfExists) {
-      errorBox.classList.add("visible");
-      pdfLink.style.display = "none";
-      return;
-    }
-
-    if (isIOS()) {
-      pdfLink.removeAttribute("download");
-      pdfLink.setAttribute("target", "_blank");
-      iosTip.classList.add("visible");
-    } else {
-      pdfLink.setAttribute("download", CONFIG.PDF_FILENAME);
-      setTimeout(() => {
-        const a = document.createElement("a");
-        a.href = pdfUrl;
-        a.download = CONFIG.PDF_FILENAME;
-        a.target = "_blank";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      }, 500);
-    }
-  }, 600);
+  if (isIOS()) {
+    pdfLink.removeAttribute("download");
+    pdfLink.setAttribute("target", "_blank");
+    iosTip.classList.add("visible");
+  } else {
+    pdfLink.setAttribute("download", CONFIG.PDF_FILENAME);
+    setTimeout(() => {
+      const a = document.createElement("a");
+      a.href = pdfUrl;
+      a.download = CONFIG.PDF_FILENAME;
+      a.target = "_blank";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }, 500);
+  }
 });
 </script>
 
